@@ -4,8 +4,11 @@ import grpc
 
 
 class InventoryServer(book_pb2_grpc.InventoryServiceServicer):
+    # Map of ISBN to book object 
     book_dict = {}
 
+
+    # Create a new book and add to map if ISBN doesn't exist
     def createBook(self, request, context):
         book = self.book_dict.get(request.book.ISBN, None)
         if book:
@@ -14,6 +17,7 @@ class InventoryServer(book_pb2_grpc.InventoryServiceServicer):
         self.book_dict[request.book.ISBN] = request.book
         return book_pb2.CreateBookResponse(statusCode="200")
 
+    # Get book from ISBN number
     def getBook(self, request, context):
         book = self.book_dict.get(request.ISBN, None)
         if book:
@@ -22,8 +26,6 @@ class InventoryServer(book_pb2_grpc.InventoryServiceServicer):
 
         return book_pb2.GetBookResponse(statusCode="400")
         
-
-
 
 
 def serve():
