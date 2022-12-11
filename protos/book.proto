@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+service InventoryService {
+    rpc createBook(CreateBookRequest) returns (CreateBookResponse);
+    rpc getBook(GetBookRequest) returns (GetBookResponse);
+}
+
+message Book {
+    int32 ISBN = 1;
+    string title = 2;
+    string author = 3;
+    enum GenreType {
+        HORROR = 0;
+        DRAMA = 1;
+        THRILLER = 2;
+      }
+    GenreType genre = 4;
+    int32 year = 5;
+}
+
+message CreateBookRequest {
+    Book book = 1;
+}
+
+message GetBookRequest {
+    int32 ISBN = 1;
+}
+
+message CreateBookResponse {
+    string statusCode = 1;
+}
+
+message GetBookResponse {
+    optional Book book = 1;
+    string statusCode = 2;
+}
+
+message InventoryItem {
+    int32 inventoryNo = 1;
+    oneof bookName {
+        Book book = 2;
+    }
+    enum StatusType {
+        avail = 0;
+        taken = 1;
+    }
+    StatusType status = 5;
+}
