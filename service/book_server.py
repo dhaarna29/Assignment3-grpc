@@ -27,10 +27,10 @@ class InventoryServer(book_pb2_grpc.InventoryServiceServicer):
     def createBook(self, request, context):
         book = self.book_dict.get(request.book.ISBN, None)
         if book:
-            return book_pb2.CreateBookResponse(statusCode="400")
+            return book_pb2.CreateBookResponse(statusCode="400: ISBN already exists")
 
         self.book_dict[request.book.ISBN] = request.book
-        return book_pb2.CreateBookResponse(statusCode="200")
+        return book_pb2.CreateBookResponse(statusCode="200: Added successfully")
 
     # Get book from ISBN number
     def getBook(self, request, context):
@@ -40,7 +40,7 @@ class InventoryServer(book_pb2_grpc.InventoryServiceServicer):
             response = book_pb2.Book(ISBN=book.ISBN, title=book.title, genre=book.genre, year=book.year, author=book.author)
             return book_pb2.GetBookResponse(book=response, statusCode="200")
 
-        return book_pb2.GetBookResponse(statusCode="400")
+        return book_pb2.GetBookResponse(statusCode="400: No book found")
         
 
 
