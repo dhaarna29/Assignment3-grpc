@@ -12,16 +12,27 @@ class TestGetBook(unittest.TestCase):
 
     def testGetBook(self):
         book = book_pb2.Book(ISBN=123, title="Hunger games", author="A", genre=2, year=20)
+
+        # Create mocks
         client = Mock()
         client.get_book = MagicMock(return_value = book_pb2.GetBookResponse(book=book))
+
+        # Call method
         result = get_book_titles.get_books([123], client)
+
+        # Verify results
         assert result == ['Hunger games']
         client.get_book.assert_called_with(123)
 
+
     def testGetBookWithServer(self):
-        book = book_pb2.Book(ISBN=123, title="Hunger games", author="A", genre=2, year=20)
+        # Create client
         client = InventoryClient()
+
+        # Call method
         result = get_book_titles.get_books([123], client)
+
+        # Verify result
         assert result == ['Hunger games']
 
 
