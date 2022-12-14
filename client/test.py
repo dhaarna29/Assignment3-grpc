@@ -10,7 +10,8 @@ from inventory_client import InventoryClient
 
 class TestGetBook(unittest.TestCase):
 
-    def __init__(self):
+    def __init__(self, methodName: str = ...) -> None:
+        super().__init__(methodName)
         book = book_pb2.Book(ISBN=123, title="Hunger games", author="A", genre=2, year=20)
 
         # Create mocks
@@ -20,7 +21,7 @@ class TestGetBook(unittest.TestCase):
     def testGetBook(self):
 
         # Call method
-        result = get_book_titles.get_books([123], self.client)
+        result = get_book_titles.get_books([123], self.mockedClient)
 
         # Verify results
         assert result == ['Hunger games']
