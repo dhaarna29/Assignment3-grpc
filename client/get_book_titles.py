@@ -1,4 +1,4 @@
-from inventory_client import Client
+from inventory_client import InventoryClient
 
 def get_books(list_of_ISBN, client):
     list_of_books = []
@@ -9,7 +9,7 @@ def get_books(list_of_ISBN, client):
     return list_of_books
 
 if __name__ == '__main__':
-    c = Client()
+    c = InventoryClient()
     books = get_books([123, 124], c)
     c.close()
 
