@@ -10,19 +10,21 @@ from inventory_client import InventoryClient
 
 class TestGetBook(unittest.TestCase):
 
-    def testGetBook(self):
+    def __init__(self):
         book = book_pb2.Book(ISBN=123, title="Hunger games", author="A", genre=2, year=20)
 
         # Create mocks
-        client = Mock()
-        client.get_book = MagicMock(return_value = book_pb2.GetBookResponse(book=book))
+        self.mockedClient = Mock()
+        self.mockedClient.get_book = MagicMock(return_value = book_pb2.GetBookResponse(book=book))
+
+    def testGetBook(self):
 
         # Call method
-        result = get_book_titles.get_books([123], client)
+        result = get_book_titles.get_books([123], self.client)
 
         # Verify results
         assert result == ['Hunger games']
-        client.get_book.assert_called_with(123)
+        self.mockedClient.get_book.assert_called_with(123)
 
 
     def testGetBookWithServer(self):
